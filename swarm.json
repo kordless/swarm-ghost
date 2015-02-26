@@ -1,0 +1,19 @@
+
+{
+  "app_name": "ghost",
+  "services": [
+    {
+      "service_name": "ghost-service",
+      "components": [
+        {
+          "component_name": "ghost",
+          "image": "registry.giantswarm.io/$username/ghost",
+          "ports": ["2368/tcp"],
+          "domains": {
+            "ghost-$username.gigantic.io": 2368 
+          }
+        }
+      ]
+    }
+  ]
+}
