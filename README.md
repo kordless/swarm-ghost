@@ -125,8 +125,8 @@ Now let's push the build to Giant Swarm!
 	
 Finally, we tell Giant Swarm to bring up the project on their service:
 
-	swarm up
-	
+	swarm up --var=username=$(swarm user)
+
 We can check if it's running by doing a:
 
 	swarm status
