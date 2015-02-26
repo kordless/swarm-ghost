@@ -163,4 +163,4 @@ Finally, configure your blog for use **(note you need to use your username here)
 
 	http://ghost-kord.gigantic.io/ghost/
 	
-That's it!  Perhaps you should start writing a blog post! 
+That's it!  Perhaps you should start writing a blog post! :beer: 
