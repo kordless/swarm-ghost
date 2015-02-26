@@ -1,5 +1,5 @@
 ## Swarming Ghost
-Interested in deploying your own blog on the Ghost blogging platform?  How about doing that in under 2 minute, huh?
+Interested in deploying your own blog on the Ghost blogging platform?  How about doing that at warp speed?
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
 
@@ -9,7 +9,7 @@ The [standard prerequisites](https://github.com/kordless/swarm-ngrok#prerequisit
 
 * A Giant Swarm [account](https://giantswarm.io).
 * The **swarm** command line client [installed](http://docs.giantswarm.io/reference/installation/).
-* A functional install of [boot2docker](https://github.com/kordless/swarm-ghost).
+* A functional install of [boot2docker](https://github.com/kordless/boot2docker-ing).
 
 The [swarm-ngrok cookbook](https://github.com/kordless/swarm-ngrok#prerequisites) has more details on fulfilling the prerequisites, if you get stuck.
 
