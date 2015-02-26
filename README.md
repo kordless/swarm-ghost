@@ -17,7 +17,7 @@ The [swarm-ngrok cookbook](https://github.com/kordless/swarm-ngrok#prerequisites
 
 Here's another fine video guide I did. This one should be short and sweet.
 
-[![](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/video.png)](https://vimeo.com/120731142)
+[![](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/video.png)](https://vimeo.com/120735541)
 
 
 ### Code Checkout
