@@ -170,7 +170,7 @@ If you want to use a custom domain for your blog, you'll need to create a CNAME 
 CNAME	ghost.geekceo.com	3600		loadbalancer.gigantic.io
 ```
 
-One you've made those changes (and you may have to wait a bit for that to take affect) you can change the 'domains' entry in the **swarm.json** file to point Giant Swarm's loadbalancer to the correct app for your particular FQDN:
+One you've made those changes (and you may have to wait a bit for that to take effect) you can change the 'domains' entry in the **swarm.json** file to point Giant Swarm's loadbalancer to the correct app for your particular FQDN:
 
 Here's an example:
 ```
