@@ -2,8 +2,11 @@ PROJECT = ghost
 REGISTRY = registry.giantswarm.io
 USERNAME :=  $(shell swarm user)
 
-docker-build:
-	docker build -t $(REGISTRY)/$(USERNAME)/$(PROJECT) .
+patch-ghost-config:
+	./tools/patch.sh
+
+docker-build: patch-ghost-config
+	docker build -t $(REGISTRY)/$(USERNAME)/$(PROJECT) .; rm tmp.sh
 
 docker-run:
 	docker run -p 80:2368 -ti --rm $(REGISTRY)/$(USERNAME)/$(PROJECT)

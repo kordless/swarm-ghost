@@ -1,4 +1,3 @@
-
 {
   "app_name": "ghost",
   "services": [
@@ -10,7 +9,7 @@
           "image": "registry.giantswarm.io/$username/ghost",
           "ports": ["2368/tcp"],
           "domains": {
-            "ghost-$username.gigantic.io": 2368 
+			"ghost-$username.gigantic.io": 2368
           }
         }
       ]
