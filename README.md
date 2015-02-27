@@ -183,7 +183,7 @@ Here's an example:
         {
           "component_name": "ghost",
           "image": "registry.giantswarm.io/$username/ghost",
-          "ports": ["2368/tcp"],
+          "ports": [2368],
           "domains": { "ghost.geekceo.com": 2368 }
         }
       ]
