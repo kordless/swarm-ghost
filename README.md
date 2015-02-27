@@ -194,7 +194,12 @@ Here's an example:
 
 That's it!  Here's to you starting to write a blog post! :beer: 
 
+#### Backups
+Right now if you lose the container, you'll lose your posts.  [Here's a nice guide](http://blog.samhutchings.co/lets-zap-some-ghosts/) to auto backing up Ghost though.
+
 ### TODO
 We need to still do the following for this application cookbook:
 
-* backups
+* seperate container for mysql
+* backups for mysql
+
