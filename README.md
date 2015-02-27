@@ -192,6 +192,6 @@ Here's an example:
 }
 ```
 
-That's it!  Perhaps you should start writing a blog post! :beer: 
+That's it!  Here's to you starting to write a blog post! :beer: 
 
 
