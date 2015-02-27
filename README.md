@@ -162,5 +162,38 @@ Now build a URL that uses that username **(note you need to use your username he
 Finally, configure your blog for use **(note you need to use your username here)**:
 
 	http://ghost-kord.gigantic.io/ghost/
-	
+
+#### Custom Domains
+If you want to use a custom domain for your blog, you'll need to create a CNAME entry for your domain on your DNS provider.  It should look something like this:
+
+```
+CNAME	ghost.geekceo.com	3600		loadbalancer.gigantic.io
+```
+
+One you've made those changes (and you may have to wait a bit for that to take affect) you can change the 'domains' entry in the **swarm.json** file to point Giant Swarm's loadbalancer to the correct app for your particular FQDN:
+
+Here's an example:
+```
+{
+  "app_name": "ghost",
+  "services": [
+    {
+      "service_name": "ghost-service",
+      "components": [
+        {
+          "component_name": "ghost",
+          "image": "registry.giantswarm.io/$username/ghost",
+          "ports": ["2368/tcp"],
+          "domains": {
+		"ghost.geekceo.com": 2368
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 That's it!  Perhaps you should start writing a blog post! :beer: 
+
+

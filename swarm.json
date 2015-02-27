@@ -7,7 +7,7 @@
         {
           "component_name": "ghost",
           "image": "registry.giantswarm.io/$username/ghost",
-          "ports": ["2368/tcp"],
+          "ports": [2368],
           "domains": {
 			"ghost-$username.gigantic.io": 2368
           }
