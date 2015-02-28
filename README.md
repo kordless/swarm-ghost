@@ -34,8 +34,6 @@ Change into the directory:
 
 You can launch Ghost in by doing the following:
 
-There's nothing left to do but push that shizzle to Giant Swarm:
-
     make swarm-up
 
 Check your Giant Swarm username:
