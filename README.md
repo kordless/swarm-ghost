@@ -48,7 +48,7 @@ You will have needed to checkout the code in the **Code Checkout** section above
 	cd swarm-ghost
 
 #### Backups
-If you don't want backups enabled or don't have an S3 bucket setup on [Amazon AWS](https://aws.amazon.com/), you can skip to where it says **No Backups Skip to Here**.
+If you don't want backups enabled or don't have an S3 bucket setup on [Amazon AWS](https://aws.amazon.com/), you can [skip to here](https://github.com/kordless/swarm-ghost#giant-swarm-and-docker-check-no-backups-skip-to-here).
 
 Backups run from a cronjob on the Ghost container every 6 hours. The cronjob will zip up the mysql database and upload it to your S3 bucket. If you want to change the default backup schedule, you can edit the **cron.conf** file before deploying:
 
