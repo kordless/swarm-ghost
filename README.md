@@ -1,7 +1,9 @@
 ## Swarming Ghost
-Interested in deploying your own blog on the Ghost blogging platform?  How about doing that at warp speed?
+Interested in deploying your own blog on the Ghost blogging platform?  How about doing that at warp speed with Giant Swarm?
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
+
+***Engage.*** - Jean-Luc Picard
 
 ### Prerequisites
 
@@ -10,8 +12,9 @@ The [standard prerequisites](https://github.com/kordless/swarm-ngrok#prerequisit
 * A Giant Swarm [account](https://giantswarm.io).
 * The **swarm** command line client [installed](http://docs.giantswarm.io/reference/installation/).
 * A functional install of [boot2docker](https://github.com/kordless/boot2docker-ing).
+* An [Amazon AWS account](http://aws.amazon.com/) to use for backups.
 
-The [swarm-ngrok cookbook](https://github.com/kordless/swarm-ngrok#prerequisites) has more details on fulfilling the prerequisites, if you get stuck.
+The [swarm-ngrok cookbook](https://github.com/kordless/swarm-ngrok#prerequisites) has more details on fulfilling the prerequisites for Giant Swarm stuff, if you get stuck.
 
 ### Video Walkthrough
 
@@ -32,24 +35,11 @@ Change into the directory:
 
 ### Quick Launch
 
-You can launch Ghost in by doing the following:
-
-There's nothing left to do but push that shizzle to Giant Swarm:
+If you are cool without backups, you can launch Ghost by pushing it to Giant Swarm:
 
     make swarm-up
 
-Check your Giant Swarm username:
-
-	superman:shellinabox kord$ swarm info |grep user
-	Logged in as user:   kord
-
-Now build a URL that uses that username **(note you need to use your username here)**:
-
-	http://ghost-kord.gigantic.io
-	
-Finally, configure your blog for use **(note you need to use your username here)**:
-
-	http://ghost-kord.gigantic.io/ghost/
+The *Makefile* will output your blog's URL and admin URL. That's seriously all you have to do.
 
 ### One Step at a Time Install
 
@@ -57,8 +47,91 @@ You will have needed to checkout the code in the **Code Checkout** section above
 
 	cd swarm-ghost
 
-#### Giant Swarm and Docker Check
-Let's make sure we're logged into Giant Swarm:
+#### Backups
+If you don't want backups enabled or don't have an S3 bucket setup on [Amazon AWS](https://aws.amazon.com/), you can skip to where it says **No Backups Skip to Here**.
+
+Backups run from a cronjob on the Ghost container every 6 hours. The cronjob will zip up the mysql database and upload it to your S3 bucket. If you want to change the default backup schedule, you can edit the **cron.conf** file before deploying:
+
+	0 0,6,12,18 * * * /ghost/backup.sh
+
+Here's a crontab file [reference](0 0,6,12,18 * * * /ghost/backup.sh).
+
+#### AWS Setup
+To start, you'll need to create a new user in your AWS account.  To start, navigate to the [AWS Console](https://console.aws.amazon.com/) and then follow these steps:
+
+1. Click on the **Identity & Access Managment** icon/link (it's a green key in the middle).
+2. Click on **users** in the left navigation panel.
+3. Click on the **create new users** button at the top.
+4. Enter a username called **ghost-backups** and click **create** down at the bottom right.
+5. Click **show user security credentials** at the top, or **download credentials** at the bottom.
+6. Copy (or save) the credentials somewhere you can get at them later.
+7. Click on **users** in the left navigation panel and then click on the new user's name.
+8. Copy the User ARN at the top. You'll use this in a minute to build an access policy.
+
+Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and then follow these steps to allow the backup user to access the bucket:
+
+1. Click on the **create bucket** button.
+2. Enter a bucket name like *giantghost-kord* and pick a region to store the bucket.
+3. Click on the bucket name in the list to view the bucket.
+4. Click on the **actions** pulldown at the top and select **create folder**.
+5. Name the folder **backups** and hit enter.
+6. Click on the **properties** tab/button at the top right.
+7. Click on **permissions** in the list.
+8. Click **Edit Bucket Policy** and enter use the following as a *guide*:
+
+```
+{
+	"Version": "2008-10-17",
+	"Id": "Policy1425321237373",
+	"Statement": [
+		{
+			"Sid": "Stmt1425321221410",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "arn:aws:iam::917652411881:user/ghost-mysql"
+			},
+			"Action": "s3:*",
+			"Resource": "arn:aws:s3:::giantghost-kord/backups"
+		}
+	]
+}
+```
+
+Remember, subsititue the Principal's AWS string (starting with **arn**) with the ARN you got from step #8 above!  Click the **save** button on the dialog to save your changes to the policy.
+
+#### Edit the Makefile
+Now you'll need to edit the existing Makefile with your settings gathered above:
+
+```
+# AWS auth and bucket info
+BACKUPS_ENABLED=false
+AWS_ACCESS_KEY_ID=AKIAIWC5LPPK3PYWKBLQ
+AWS_SECRET_ACCESS_KEY=0Jnr4+Mp4Qqi9kh8RNw+V0Vn5CoJYnX7euiqFj+E
+AWS_DEFAULT_REGION=eu-central-1
+S3_BUCKET=giantghost-kord/backups
+
+# mysql stuff
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=f00bar
+
+# ghost stuff
+MYSQL_DATABASE=ghost
+DOMAIN=ghost-$(USERNAME).gigantic.io
+```
+
+Make the following edits to the Makefile:
+
+1. Change *BACKUPS_ENABLED* to be *true*. 
+2. Change the *AWS_ACCESS_KEY_ID* and *AWS_SECRET_ACCESS_KEY* to whatever you copied from AWS.
+3. Change the *AWS_DEFAULT_REGION*. Here's a [list of regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
+4. Finally, change the *S3_BUCKET* to whatever your bucket is + **/backups** onto the end of it.
+5. Make sure you don't have any spaces ***before or after*** any of the variables!
+
+If you want to use a custom domain for your blog, scroll to the bottom of this guide.
+
+
+#### Giant Swarm and Docker Check (No Backups Skip to Here)
+Now all that mess is out of the way, let's make sure we're logged into Giant Swarm:
 
 	swarm info
 	
