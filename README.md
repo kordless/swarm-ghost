@@ -95,7 +95,9 @@ Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and th
 }
 ```
 
-Remember, subsititue the Principal's AWS string (starting with **arn**) with the ARN you got from step #8 above and then change the end of the bucket *Resource* text to use your bucket name.  Click the **save** button on the dialog to save your changes to the policy.
+Remember, subsititue the Principal's AWS string with the ARN you got from step #8 above and then change the end of the bucket *Resource* text to use your bucket name instead of *giantghost-kord*.  Click the **save** button on the dialog to save your changes to the policy.
+
+***Note: I tried to find a way to locate the bucket's ARN, but failed at it.***
 
 #### Edit the Makefile
 Now you'll need to edit the existing Makefile with your settings gathered above:
