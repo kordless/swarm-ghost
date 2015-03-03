@@ -81,11 +81,9 @@ Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and th
 
 ```
 {
-	"Version": "2008-10-17",
-	"Id": "Policy1425321237373",
+	"Version": "2015-10-29",
 	"Statement": [
 		{
-			"Sid": "Stmt1425321221410",
 			"Effect": "Allow",
 			"Principal": {
 				"AWS": "arn:aws:iam::917652411881:user/ghost-mysql"
@@ -97,7 +95,7 @@ Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and th
 }
 ```
 
-Remember, subsititue the Principal's AWS string (starting with **arn**) with the ARN you got from step #8 above!  Click the **save** button on the dialog to save your changes to the policy.
+Remember, subsititue the Principal's AWS string (starting with **arn**) with the ARN you got from step #8 above!  Click the **save** button on the dialog to save your changes to the policy. You can probably safely delete the 
 
 #### Edit the Makefile
 Now you'll need to edit the existing Makefile with your settings gathered above:
