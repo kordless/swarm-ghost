@@ -167,13 +167,13 @@ Git commit (server): a8a31ef
 ```
 
 #### Build and Run Locally with Docker
-Now let's build the Docker container locally **(don't forget the dot!)**:
+To run locally, you'll need to start the MySQL container first:
 
-	docker build -t registry.giantswarm.io/$(swarm user)/ghost .
+	make docker-mysql
+	
+That should start and exit back to the prompt.  Next, start the Ghost container:
 
-Run that locally by doing the following:
-
-	docker run -p 80:2368 -ti --rm registry.giantswarm.io/$(swarm user)/ghost
+	make docker-run
 	
 This will create a container that listens on port 80 on your **boot2docker** instance.  You can get the IP of the **boot2docker** instance by doing the following:
 
@@ -223,7 +223,7 @@ Now take a look at the logs of the application by doing a:
 Remember, you'll need to use the instance ID you found in the status output!
 
 #### Access Ghost
-Once again, check your Giant Swarm username:
+The **Makefile** should output your domain.  If you like, you can build it manually. Start by checking your Giant Swarm username:
 
 	superman:shellinabox kord$ swarm info |grep user
 	Logged in as user:   kord
@@ -243,36 +243,16 @@ If you want to use a custom domain for your blog, you'll need to create a CNAME 
 CNAME	ghost.geekceo.com	3600		loadbalancer.gigantic.io
 ```
 
-One you've made those changes (and you may have to wait a bit for that to take effect) you can change the 'domains' entry in the **swarm.json** file to point Giant Swarm's loadbalancer to the correct app for your particular FQDN:
+One you've made those changes (and you may have to wait a bit for that to take effect) you can change the **DOMAINS** entry in the **Makefile** file:
 
 Here's an example:
+
 ```
-{
-  "app_name": "ghost",
-  "services": [
-    {
-      "service_name": "ghost-service",
-      "components": [
-        {
-          "component_name": "ghost",
-          "image": "registry.giantswarm.io/$username/ghost",
-          "ports": [2368],
-          "domains": { "ghost.geekceo.com": 2368 }
-        }
-      ]
-    }
-  ]
-}
+DOMAIN=ghost.geekceo.com
 ```
 
 That's it!  Here's to you starting to write a blog post! :beer: 
 
-#### Backups
-Right now if you lose the container, you'll lose your posts.  [Here's a nice guide](http://blog.samhutchings.co/lets-zap-some-ghosts/) to auto backing up Ghost though.
-
-### TODO
-We need to still do the following for this application cookbook:
-
-* seperate container for mysql
-* backups for mysql
+#### Other Backups
+[Here's a nice guide](http://blog.samhutchings.co/lets-zap-some-ghosts/) to auto backing up Ghost to Dropbox.
 
