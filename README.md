@@ -1,5 +1,5 @@
 ## Swarming Ghost
-Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging platform?  How about doing that at warp speed with [Giant Swarm](http://giantswarm.io/? Here's a [quick demo site](http://ghost.geekceo.com).
+Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging platform?  How about doing that at warp speed with [Giant Swarm](http://giantswarm.io/)? Here's a [quick demo site](http://ghost.geekceo.com).
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
 
