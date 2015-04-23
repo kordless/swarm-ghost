@@ -76,9 +76,10 @@ Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and th
 3. Click on the bucket name in the list to view the bucket.
 4. Click on the **actions** pulldown at the top and select **create folder**.
 5. Name the folder **backups** and hit enter.
-6. Click on the **properties** tab/button at the top right.
-7. Click on **permissions** in the list.
-8. Click **Edit Bucket Policy** and enter use the following as a *guide*:
+6. Click **All Buckets** and then select the bucket you created above.
+7. Click on the **properties** tab/button at the top right.
+8. Click on **permissions** in the list.
+9. Click **Edit Bucket Policy** and enter use the following as a *guide*:
 
 ```
 {
