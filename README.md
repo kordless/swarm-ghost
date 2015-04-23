@@ -88,7 +88,7 @@ Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and th
 		{
 			"Effect": "Allow",
 			"Principal": {
-				"AWS": "arn:aws:iam::917652411881:user/ghost-mysql"
+				"AWS": "arn:aws:iam::917652411881:user/ghost-backups"
 			},
 			"Action": "s3:*",
 			"Resource": "arn:aws:s3:::giantghost-kord/backups"
