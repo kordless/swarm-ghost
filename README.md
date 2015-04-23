@@ -65,8 +65,9 @@ To start, you'll need to create a new user in your AWS account.  To start, navig
 4. Enter a username called **ghost-backups** and click **create** down at the bottom right.
 5. Click **show user security credentials** at the top, or **download credentials** at the bottom.
 6. Copy (or save) the credentials somewhere you can get at them later.
-7. Click on **users** in the left navigation panel and then click on the new user's name.
-8. Copy the User ARN at the top. You'll use this in a minute to build an access policy.
+7. Click 'close' at the bottom right twice.
+8. Click on **users** in the left navigation panel and then click on the new user's name.
+9. Copy the User ARN at the top. You'll use this in a minute to build an access policy.
 
 Now navigate to the [AWS S3 dashbord](https://console.aws.amazon.com/s3/) and then follow these steps to allow the backup user to access the bucket:
 
