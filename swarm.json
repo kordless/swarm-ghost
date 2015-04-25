@@ -1,5 +1,5 @@
 {
-  "app_name": "ghost",
+  "app_name": "swarm-ghost",
   "services": [
     {
       "service_name": "db",
@@ -7,7 +7,7 @@
         {
           "component_name": "mysql",
           "image": "mysql:5.5",
-          "ports": ["3306"],
+          "ports": [3306],
           "env": {
             "MYSQL_ROOT_PASSWORD": "$mysqlpassword",
             "MYSQL_DATABASE": "$mysqldatabase"
@@ -22,17 +22,21 @@
       ]
     },
     {
-      "service_name": "ghost-service",
+      "service_name": "server",
       "components": [
         {
           "component_name": "ghost",
-          "image": "registry.giantswarm.io/$username/ghost",
+          "image": "registry.giantswarm.io/$username/swarm-ghost",
+          "ports": [2368],
           "env": {
-            "DOMAIN": "$domain",
+            "HOSTNAME": "$hostname",
+            "CNAME": "$cname",
             "MYSQL_DATABASE": "$mysqldatabase",
             "MYSQL_USERNAME": "$mysqlusername",
             "MYSQL_PASSWORD": "$mysqlpassword",
-			"BACKUPS_ENABLED": "$backupsenabled",
+            "MAILGUN_USERNAME": "$mailgunusername",
+            "MAILGUN_APIKEY": "$mailgunapikey",
+            "BACKUPS_ENABLED": "$backupsenabled",
             "S3_BUCKET": "$s3bucket",
             "AWS_ACCESS_KEY_ID": "$awskey",
             "AWS_SECRET_ACCESS_KEY": "$awssecret",
@@ -45,10 +49,26 @@
               "port": 3306,
               "alias": "mysql"
             }
+          ]
+        }
+      ]
+    },
+    {
+      "service_name": "cache",
+      "components": [
+        {
+          "component_name": "varnish",
+          "image": "registry.giantswarm.io/$username/ghost-varnish",
+          "ports": [80],
+          "dependencies": [
+            {
+              "name": "server/ghost",
+              "port": 2368,
+              "alias": "ghost"
+            }
           ],
-          "ports": [2368],
           "domains": {
-            "$domain": 2368
+            "$cname": 80
           }
         }
       ]

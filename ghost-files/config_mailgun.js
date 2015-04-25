@@ -7,15 +7,24 @@ var path = require('path'),
 
 config = {
     production: {
-        url: 'http://%DOMAIN%',
-        mail: {},
+        url: 'http://%CNAME%',
+        mail: {
+            transport: 'SMTP',
+            options: {
+                service: 'Mailgun',
+                auth: {
+                    user: '%MAILGUN_USERNAME%', // mailgun username
+                    pass: '%MAILGUN_APIKEY%'  // mailgun API key
+                }
+            }
+        },
         database: {
             client: 'mysql',
             connection: {
                 host     : '%MYSQL_SERVER%',
                 user     : '%MYSQL_USERNAME%',
                 password : '%MYSQL_PASSWORD%',
-                database : 'ghost',
+                database : '%MYSQL_DATABASE%',
                 charset  : 'utf8'
             }
         },

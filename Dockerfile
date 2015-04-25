@@ -41,21 +41,21 @@ ENV NODE_ENV production
 VOLUME ["/data", "/ghost-override"]
 WORKDIR /ghost
 
-# deal with config file
-COPY config.js config.js
-
 # copy over start script
 COPY start.sh start.sh
 
-# crontab stuff for backup
+# copy ghost files
+COPY ghost-files/* /ghost-override/
+
+# crontab and script for backup
 COPY backup.sh backup.sh
 COPY cron.conf cron.conf
-RUN crontab /ghost/cron.conf
-RUN crontab -l
 
 # start ghost
-CMD ["bash", "/ghost/start.sh"]
+# CMD ["bash", "/ghost/start.sh"]
+
+# if you need to debug...comment out line above and uncomment this
+CMD ["bash"] 
 
 # listen on this port
 EXPOSE 2368
-
