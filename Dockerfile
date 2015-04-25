@@ -52,10 +52,10 @@ COPY backup.sh backup.sh
 COPY cron.conf cron.conf
 
 # start ghost
-# CMD ["bash", "/ghost/start.sh"]
+CMD ["bash", "/ghost/start.sh"]
 
 # if you need to debug...comment out line above and uncomment this
-CMD ["bash"] 
+# CMD ["bash"] 
 
 # listen on this port
 EXPOSE 2368
