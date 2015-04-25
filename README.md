@@ -46,6 +46,8 @@ You will have needed to checkout the code in the **Code Checkout** section above
 
 	cd swarm-ghost
 
+If you don't want backups or Mailgun enabled, skip to [Build and Run](#build-and-run-locally-with-docker)
+
 #### Backups
 Backups run from a cronjob on the Ghost container every 12 hours. The cronjob will zip up the mysql database and upload it to your S3 bucket. If you want to change the default backup schedule, you can edit the **cron.conf** file before deploying:
 
@@ -214,13 +216,13 @@ Git commit (server): a8a31ef
 #### Build and Run Locally with Docker
 To run locally, you'll need to start the MySQL container first:
 
-	make docker-mysql
+	make docker-mysql-run
 	
 That should start and exit back to the prompt.  Next, start the Ghost container:
 
 	make docker-run
 	
-This will create a container that listens on port 80 on your **boot2docker** instance.  You can get the IP of the **boot2docker** instance by doing the following:
+This will create a container that listens on port 2368 on your **boot2docker** instance.  You can get the IP of the **boot2docker** instance by doing the following:
 
 	boot2docker ip
 
@@ -231,9 +233,15 @@ That should produce something exactly like this, or worst case simlar to this:
 
 Now pop that into your browser:
 
-	http://192.168.59.103
+	http://192.168.59.103:2368
 	
-You should get the sample blog post running in Ghost now.
+You should get the sample blog post running in Ghost. Finally, open a new terminal and start the Varnish cache container:
+
+    make docker-varnish-run
+    
+Varnish will run on port 80, so the following will access the blog through the Varnish cache:
+
+    http://192.168.59.103/
 
 #### Push to Giant Swarm
 
