@@ -2,6 +2,7 @@
 PROJECT = ghost-varnish
 REGISTRY = registry.giantswarm.io
 USERNAME := $(shell swarm user)
+BACKEND_IP := $(shell boot2docker ip)
 
 docker-build:
 	docker build -t $(REGISTRY)/$(USERNAME)/$(PROJECT) .
@@ -11,7 +12,7 @@ docker-push: docker-build
 
 docker-run: docker-build
 	docker run --rm -ti \
-	    -e VARNISH_BACKEND_IP=192.168.59.103 \
+	    -e VARNISH_BACKEND_IP=$BACKEND_IP \
     	-e VARNISH_BACKEND_PORT=2368 \
     	-e VARNISH_STORAGE_AMOUNT=100M \
 		--link ghost:ghost \

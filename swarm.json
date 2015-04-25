@@ -1,5 +1,5 @@
 {
-  "app_name": "swarm-ghost",
+  "app_name": "ghost-blog",
   "services": [
     {
       "service_name": "db",
@@ -26,7 +26,7 @@
       "components": [
         {
           "component_name": "ghost",
-          "image": "registry.giantswarm.io/$username/swarm-ghost",
+          "image": "registry.giantswarm.io/$username/ghost-server",
           "ports": [2368],
           "env": {
             "HOSTNAME": "$hostname",
@@ -40,8 +40,7 @@
             "S3_BUCKET": "$s3bucket",
             "AWS_ACCESS_KEY_ID": "$awskey",
             "AWS_SECRET_ACCESS_KEY": "$awssecret",
-            "AWS_DEFAULT_REGION": "$awsregion",
-            "PATH_DATEPATTERN": "%Y/%m"
+            "AWS_DEFAULT_REGION": "$awsregion"
           },
           "dependencies": [
             {

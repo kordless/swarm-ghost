@@ -1,9 +1,9 @@
 # standard info
-PROJECT = ghost-blog
+PROJECT = ghost-server
 REGISTRY = registry.giantswarm.io
 USERNAME := $(shell swarm user)
 
-# AWS auth and bucket info 
+# AWS auth and bucket info
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_DEFAULT_REGION=eu-central-1
@@ -19,7 +19,7 @@ MYSQL_PASSWORD=f00bar
 MYSQL_DATABASE=ghost
 
 # domain settings
-HOSTNAME=ghost-$(USERNAME).gigantic.io
+HOSTNAME=$(USERNAME).giantswarm.io
 CNAME=$(HOSTNAME)
 DEV_HOSTNAME=$(shell boot2docker ip):2368
 DEV_CNAME=$(DEV_HOSTNAME)
@@ -29,7 +29,6 @@ docker-build:
 
 docker-run: docker-build
 	docker run --name=ghost --rm -ti \
-		-e "BACKUPS_ENABLED=$(BACKUPS_ENABLED)" \
 		-e "AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)" \
 		-e "AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)" \
 		-e "AWS_DEFAULT_REGION=$(AWS_DEFAULT_REGION)" \
@@ -39,7 +38,6 @@ docker-run: docker-build
 		-e "MYSQL_PASSWORD=$(MYSQL_PASSWORD)" \
 		-e "MAILGUN_USERNAME=$(MAILGUN_USERNAME)" \
 		-e "MAILGUN_APIKEY=$(MAILGUN_APIKEY)" \
-		-e "PATH_DATEPATTERN=%Y/%m" \
 		-e "HOSTNAME=$(DEV_HOSTNAME)" \
 		-e "CNAME=$(DEV_CNAME)" \
 		--link mysql:mysql \
@@ -66,7 +64,6 @@ docker-pull:
 
 swarm-up: docker-varnish-push docker-push
 	swarm up \
-	  --var=backupsenabled=$(BACKUPS_ENABLED) \
 	  --var=awskey=$(AWS_ACCESS_KEY_ID) \
 	  --var=awssecret=$(AWS_SECRET_ACCESS_KEY) \
 	  --var=awsregion=$(AWS_DEFAULT_REGION) \

@@ -1,5 +1,5 @@
 ## Swarming Ghost
-Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging platform?  How about doing that at warp speed with [Giant Swarm](http://giantswarm.io/)? Here's a [quick demo site](http://ghost-kord.gigantic.io/).
+Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging platform?  How about doing that at warp speed with [Giant Swarm](http://giantswarm.io/)? Here's a [quick demo site](http://kord.playground.giantswarm.io/hello/).
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
 
@@ -23,15 +23,14 @@ Here's another fine video guide I did, but which is a little out of date. If you
 [![](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/video.png)](https://vimeo.com/120735541)
 
 
-### Code Checkout
-
+#### Code Checkout
 Let's clone the repo:
 
-    git clone https://github.com/kordless/swarm-ghost.git
+    git clone https://github.com/giantswarm/blog.git
 
 Change into the directory:
 
-	cd swarm-ghost
+	cd blog
 
 ### Quick Launch
 
@@ -48,13 +47,11 @@ You will have needed to checkout the code in the **Code Checkout** section above
 	cd swarm-ghost
 
 #### Backups
-If you don't want backups enabled or don't have an S3 bucket setup on [Amazon AWS](https://aws.amazon.com/), you can [skip to here](https://github.com/kordless/swarm-ghost#giant-swarm-and-docker-check-no-backups-skip-to-here).
+Backups run from a cronjob on the Ghost container every 12 hours. The cronjob will zip up the mysql database and upload it to your S3 bucket. If you want to change the default backup schedule, you can edit the **cron.conf** file before deploying:
 
-Backups run from a cronjob on the Ghost container every 6 hours. The cronjob will zip up the mysql database and upload it to your S3 bucket. If you want to change the default backup schedule, you can edit the **cron.conf** file before deploying:
+	0 0,12 * * * /ghost/backup.sh
 
-	0 0,6,12,18 * * * /ghost/backup.sh
-
-Here's a crontab file [reference](0 0,6,12,18 * * * /ghost/backup.sh).
+Here's a crontab file [reference](http://www.adminschoice.com/crontab-quick-reference).
 
 #### AWS Setup
 To start, you'll need to create a new user in your AWS account.  To start, navigate to the [AWS Console](https://console.aws.amazon.com/) and then follow these steps:
@@ -101,36 +98,82 @@ Remember, subsititue the Principal's AWS string with the ARN you got from step #
 
 ***Note: I tried to find a way to tell you how to locate the bucket's ARN, but failed. Just be careful hacking it up there and you'll be fine!***
 
+#### Mailgun Setup
+Navigate to [Mailgun](https://mailgun.com) and either create an account or login to your existing account and go grab your Mailgun API key.  You'll use it and your Mailgun email address in the Makefile below.
+
 #### Edit the Makefile
-Now you'll need to edit the existing Makefile with your settings gathered above:
+Now you'll need to edit the existing Makefile with your settings gathered above (these are older deleted keys I'm using):
 
 ```
 # AWS auth and bucket info
-BACKUPS_ENABLED=false
 AWS_ACCESS_KEY_ID=AKIAIWC5LPPK3PYWKBLQ
 AWS_SECRET_ACCESS_KEY=0Jnr4+Mp4Qqi9kh8RNw+V0Vn5CoJYnX7euiqFj+E
 AWS_DEFAULT_REGION=eu-central-1
-S3_BUCKET=giantghost-kord/backups
+S3_BUCKET=giantghost-$(shell swarm user)/backups
+
+# mailgun stuff
+MAILGUN_USERNAME=kordless@foobar.com
+MAILGUN_APIKEY=144f29d23ffab65fd41afc18424d544c
 
 # mysql stuff
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=f00bar
-
-# ghost stuff
 MYSQL_DATABASE=ghost
-DOMAIN=ghost-$(USERNAME).gigantic.io
+
+# domain settings
+HOSTNAME=$(USERNAME).playground.giantswarm.io
+CNAME=$(HOSTNAME)
+DEV_HOSTNAME=$(shell boot2docker ip):2368
+DEV_CNAME=$(DEV_HOSTNAME)
 ```
 
 Make the following edits to the Makefile:
 
-1. Change *BACKUPS_ENABLED* to be *true*. 
-2. Change the *AWS_ACCESS_KEY_ID* and *AWS_SECRET_ACCESS_KEY* to whatever you copied from AWS.
-3. Change the *AWS_DEFAULT_REGION*. Here's a [list of regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
-4. Finally, change the *S3_BUCKET* to whatever your bucket is + **/backups** onto the end of it.
-5. Make sure you don't have any spaces ***before or after*** any of the variables!
+1. Change the *AWS_ACCESS_KEY_ID* and *AWS_SECRET_ACCESS_KEY* to whatever you copied from AWS.
+2. Change the *AWS_DEFAULT_REGION*. Here's a [list of regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
+3. Change the *S3_BUCKET* to whatever your bucket is + **/backups** onto the end of it.
+4. Change the *MAILGUN_USERNAME* to your Mailgun account's email address.
+5. Change the MAILGUN_APIKEY to your Mailgun account's API Key (less the 'key-' part)
+4. Make sure you don't have any spaces ***before or after*** any of the variables!
 
 If you want to use a custom domain for your blog, scroll to the bottom of this guide.
 
+
+#### Blog Recovery
+To recover the blog from S3 backups, go to the directory in the your bucket and navigate to the year, month and day of the backup you would like to restore. There are two files which are used to do the recovery (using examples):
+
+* ```mysql_2015-04-23_21-04.sql.gz``` - mysql database dump 
+* ```content_images_2015-04-23_21-04.tar.gz``` - zipped directory of all images uploaded to blog
+
+##### Images to Ghost Container
+To recover the images to the blog container, you'll need to download the content images tar file and unzip it. Take the contents of the ```/ghost-override/content/images/``` directory and place them in the ```/ghost-files/content/images/``` directory in the blog repo directory.  The **.gitignore** file is set to ignore these files, in case you are doing development on the repo.
+
+##### Database Recovery
+To recover the backup to repopulate the database, copy the mysql zipped file to the ```/ghost-files/``` directory and rename it to ```blog.sql``` so it will be copied into the container by docker:
+
+	gunzip mysql_2015-04-23_21-04.sql.gz 
+	mv mysql*.sql ~/blog/ghost-files/blog.sql
+    
+Note the filename needs to be ```mysql.sql``` in order for the ```start.sh``` script to see it and push it to the mysql container.
+
+Again, **.gitignore** is set to ignore this file.
+
+You may then deploy the recovered blog by doing a:
+
+    make swarm-up
+
+Or, alternately, if you already have it running:
+
+	make docker-push
+	swarm update ghost-blog/server/ghost
+
+As soon as you have verified the database has been restored (by using the site), you need to remove the backup file from your local copy and push the changes to the index again:
+
+    rm ghost-files/ghost.sql
+    make docker-push
+	swarm update ghost-blog/server/ghost
+
+See below for more information on pushing and accessing the deployment.
 
 #### Giant Swarm and Docker Check (No Backups Skip to Here)
 Now all that mess is out of the way, let's make sure we're logged into Giant Swarm:
