@@ -1,5 +1,12 @@
 ## Swarming Ghost
-Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging platform?  How about doing that at warp speed with [Giant Swarm](http://giantswarm.io/)? Here's a [quick demo site](http://kord.playground.giantswarm.io/hello/).
+Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging platform?  How about doing that at warp speed with [Giant Swarm](http://giantswarm.io/)? Here's a [quick demo site](http://kord.playground.giantswarm.io/hello/) to perk your interest. This deployment supports the following features:
+
+* Easy-to-use Ghost blogging platform
+* MySQL database with automated backups to S3
+* Complete recovery of blog from backups including images, posts, users
+* Accelerated cache using Varnish cache container
+
+Let's get started.
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
 
