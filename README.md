@@ -258,16 +258,18 @@ Remember, you need to be in the same directory as the project's ***swarm.json***
 **Note the instance ID and copy it.**
 
 ```
-superman:test-ghost kord$ swarm status
-App ghost is up
+superman:swarm-ghost kord$ swarm status
+App ghost-blog is up
 
-service        component  image                              instanceid                            created              status
-ghost-service  ghost      registry.giantswarm.io/kord/ghost  8685ae85-fb19-46eb-b980-35fcd9bac348  2015-02-26 19:14:59  up
+service  component  image                                      instanceid        created              status
+cache    varnish    registry.giantswarm.io/kord/ghost-varnish  Qk5C5eFZb3biERtmO  2015-04-25 22:24:11  up
+db       mysql      mysql:5.5                                  TYe3ZWR8BjYj5uHPh  2015-04-25 22:24:11  up
+server   ghost      registry.giantswarm.io/kord/ghost-server   QnbJq4EX8ZR3qPFEd  2015-04-25 22:24:11  up
 ```
 
 Now take a look at the logs of the application by doing a:
 
-	swarm logs 8685ae85-fb19-46eb-b980-35fcd9bac348
+	swarm logs QnbJq4EX8ZR3qPFEd
 	
 Remember, you'll need to use the instance ID you found in the status output!
 

@@ -19,7 +19,7 @@ MYSQL_PASSWORD=f00bar
 MYSQL_DATABASE=ghost
 
 # domain settings
-HOSTNAME=$(USERNAME).giantswarm.io
+HOSTNAME=ghost-$(USERNAME).gigantic.io
 CNAME=$(HOSTNAME)
 DEV_HOSTNAME=$(shell boot2docker ip):2368
 DEV_CNAME=$(DEV_HOSTNAME)
