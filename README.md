@@ -247,10 +247,6 @@ Varnish will run on port 80, so the following will access the blog through the V
 
 Now let's push the build to Giant Swarm!
 
-	docker push registry.giantswarm.io/$(swarm user)/ghost
-	
-Finally, we tell Giant Swarm to bring up the project on their service:
-
 	swarm up --var=username=$(swarm user)
 
 We can check if it's running by doing a:
