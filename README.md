@@ -6,7 +6,7 @@ Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging pl
 * Complete recovery of blog from backups including images, posts, users
 * Accelerated cache using Varnish cache container
 
-Let's get started.
+Let's get started with the detailed guide. If you like, you can skip to the [blog post version](http://kord.playground.giantswarm.io/deploy-a-ghost-blog-in-10-minutes/).
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
 
@@ -16,7 +16,7 @@ Let's get started.
 
 The [standard prerequisites](https://github.com/kordless/swarm-ngrok#prerequisites) apply to this project. At a minimum you need the following:
 
-* A Giant Swarm [account](https://giantswarm.io).
+* A Giant Swarm [account](https://giantswarm.io) (this is somewhat optional if you are OK running locally)
 * The **swarm** command line client [installed](http://docs.giantswarm.io/reference/installation/).
 * A functional install of [boot2docker](https://github.com/kordless/boot2docker-ing).
 * An [Amazon AWS account](http://aws.amazon.com/) to use for backups.
