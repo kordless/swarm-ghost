@@ -45,7 +45,10 @@ WORKDIR /ghost
 COPY start.sh start.sh
 
 # copy ghost files
-COPY ghost-files/* /ghost-override/
+COPY ghost-files/content/images /ghost-override/content/images
+COPY ghost-files/content/themes /ghost-override/content/themes
+COPY ghost-files/content/logs /ghost-override/content/logs
+COPY ghost-files/config_*.js /ghost-override/
 
 # crontab and script for backup
 COPY backup.sh backup.sh

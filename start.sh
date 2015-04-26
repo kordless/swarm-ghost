@@ -10,7 +10,7 @@ CONFIG_MAILGUN="$OVERRIDE/config_mailgun.js"
 # backup script
 BACKUP_SCRIPT="backup.sh"
 
-# data directories
+# ghost content directories
 DATA="content/data"
 IMAGES="content/images"
 THEMES="content/themes"

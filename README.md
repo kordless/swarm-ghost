@@ -163,7 +163,7 @@ To recover the backup to repopulate the database, copy the mysql zipped file to 
 	gunzip mysql_2015-04-23_21-04.sql.gz 
 	mv mysql*.sql ~/blog/ghost-files/blog.sql
     
-Note the filename needs to be ```mysql.sql``` in order for the ```start.sh``` script to see it and push it to the mysql container.
+Note the filename needs to be ```blog.sql``` in order for the ```start.sh``` script to see it and push it to the mysql container.
 
 Again, **.gitignore** is set to ignore this file.
 
