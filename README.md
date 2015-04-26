@@ -6,7 +6,7 @@ Interested in deploying your own blog on the [Ghost](http:ghost.org) blogging pl
 * Complete recovery of blog from backups including images, posts, users
 * Accelerated cache using Varnish cache container
 
-Let's get started.
+Let's get started with the detailed guide. If you like, you can skip to the [blog post version](http://kord.playground.giantswarm.io/deploy-a-ghost-blog-in-10-minutes/).
 
 ![engage](https://raw.githubusercontent.com/kordless/swarm-ghost/master/assets/meme.jpg)
 
